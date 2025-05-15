@@ -1,5 +1,5 @@
 /* Nuclei segmentation
-   Tested on SHEF6_D2N20-3dE_G3_DAPI_Factin-488_Bry-568_Sox2-647.lif, series 3, z-slice 40/79
+   Tested on SHEF6_D3N20-3dE_G3_DAPI_Factin-488_Bry-568_Sox2-647.lif, series 3, z-slice 28/55
 */
 
 // duplicate and isolate DAPI channel
