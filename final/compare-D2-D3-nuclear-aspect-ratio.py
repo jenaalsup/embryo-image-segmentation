@@ -7,8 +7,8 @@ import os
 data_dir = "data/"
 
 # Collect all files
-d2_files = glob.glob(os.path.join(data_dir, "D2_slice53.csv"))
-d3_files = glob.glob(os.path.join(data_dir, "D3_slice64.csv"))
+d2_files = glob.glob(os.path.join(data_dir, "D2_slice*.csv"))
+d3_files = glob.glob(os.path.join(data_dir, "D3_slice*.csv"))
 
 def load_aspect_ratios(file_list, day_label):
     dfs = []
@@ -35,6 +35,23 @@ d3_mean = d3_data["Aspect Ratio"].mean()
 print(f"Mean Aspect Ratio for Day 2: {d2_mean:.2f}")
 print(f"Mean Aspect Ratio for Day 3: {d3_mean:.2f}")
 
+# t test
+from scipy.stats import ttest_ind
+
+# Extract just the values
+d2_values = d2_data["Aspect Ratio"].values
+d3_values = d3_data["Aspect Ratio"].values
+
+# Perform Welch's t-test
+t_stat, p_value = ttest_ind(d2_values, d3_values, equal_var=False)
+
+print(f"T-statistic: {t_stat:.4f}")
+print(f"P-value: {p_value:.4f}")
+
+if p_value < 0.05:
+    print("Result: Statistically significant difference between Day 2 and Day 3.")
+else:
+    print("Result: No statistically significant difference between Day 2 and Day 3.")
 
 # Plot
 plt.figure(figsize=(6, 4))
