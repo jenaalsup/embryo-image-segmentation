@@ -10,7 +10,7 @@ def normalize_ellipse(points):
     return centered / scale
 
 # === Fit F-actin ellipse from ImageJ contour ===
-contour = np.loadtxt("data/D3_slice63_ellipse_contour.csv", delimiter=",", skiprows=1)[:, :2]
+contour = np.loadtxt("data/Ellipse_contour_D3_slice63.csv", delimiter=",", skiprows=1)[:, :2]
 model1 = EllipseModel()
 model1.estimate(contour)
 xc1, yc1, a1, b1, theta1 = model1.params
