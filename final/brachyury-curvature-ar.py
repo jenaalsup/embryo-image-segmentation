@@ -8,7 +8,7 @@ import seaborn as sns
 
 # --- 1. Load CSVs ---
 all_cells = pd.read_csv("data/D3_slice64.csv")
-brachyury_cells = pd.read_csv("data/D3_slice64_brachyury.csv")
+brachyury_cells = pd.read_csv("data/bra_D3_slice64.csv")
 
 # --- 2. Classify based on proximity ---
 all_coords = all_cells[["X", "Y"]].values
