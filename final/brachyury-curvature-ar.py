@@ -5,10 +5,14 @@ from skimage.measure import EllipseModel
 from scipy.spatial import cKDTree
 from scipy.spatial.distance import cdist
 import seaborn as sns
+import glob
 
 # --- 1. Load CSVs ---
-all_cells = pd.read_csv("data/D3_slice64.csv")
-brachyury_cells = pd.read_csv("data/bra_D3_slice64.csv")
+target_slices = ["71", "83"]
+all_cells_files = [f for f in glob.glob("data/D3_slice*.csv") if any(f"slice{num}" in f for num in target_slices)]
+brachyury_cells_files = [f for f in glob.glob("data/bra_D3_slice*.csv") if any(f"slice{num}" in f for num in target_slices)]
+all_cells = pd.concat([pd.read_csv(file) for file in all_cells_files], ignore_index=True)
+brachyury_cells = pd.concat([pd.read_csv(file) for file in brachyury_cells_files], ignore_index=True)
 
 # --- 2. Classify based on proximity ---
 all_coords = all_cells[["X", "Y"]].values
