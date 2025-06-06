@@ -1,14 +1,16 @@
-// Note: open and select the correct day, series, and z-slice image before running
+/* 
+  Script to segment slice of human embryo image and save attributes like aspect ratio, coordinates, and size of each nucleus
+  Before running, open and select the correct, day, series, and z-sluce image
+  Paste this code into a Fiji macro
+*/
+
 outputPath = "/Users/jenaalsup/Desktop/D3_series8-again.csv"; // change this to be the day / series of interest
 
 // duplicate and isolate DAPI channel
-run("Duplicate...", "duplicate channels=1 title=Segmentation duplicate");
-selectWindow("Segmentation");
+run("Duplicate...", "duplicate channels=1 title=Segmentation duplicate"); // pass in DAPI (channels=1) or SOX2 (channels=5)selectWindow("Segmentation");
 
 // projection prep
 run("8-bit");
-//run("Z Project...", "projection=[Median]");
-//rename("Projected");
 
 // pre-threshold smoothing
 run("Gaussian Blur...", "sigma=0.8");
