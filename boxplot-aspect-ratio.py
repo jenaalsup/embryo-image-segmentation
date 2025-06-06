@@ -1,3 +1,5 @@
+# generates boxplot of aspect ratio of nuclei in day 2 and day 3
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import glob

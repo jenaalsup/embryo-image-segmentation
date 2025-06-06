@@ -1,4 +1,6 @@
 Human Embryo Image Segmentation
 
 How to run:
-- ijm (data saves to csv)
+- segment-nuclei.ijm (paste this into a fiji macro - segments the original image and saves coordinates, aspect ratio of each nuclei to a csv)
+- `python3 boxplot-aspect-ratio.py` (generates boxplot of aspect ratio of nuclei in day 2 and day 3)
+- `python3 plot-curvature-distribution.py` (generates 2 plots: (1) scatterplot of curvature vs. nuclear aspect ratio by day 2 and day and (2) smoothed histogram of curvature frequencies by day 2 and day 3) 
