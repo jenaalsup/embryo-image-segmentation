@@ -8,7 +8,7 @@ import seaborn as sns
 import glob
 
 # --- 1. Load CSVs ---
-target_slices = ["71", "83", "1234"]
+target_slices = ["71", "83", "40"]
 all_cells_files = [f for f in glob.glob("data/D3_slice*.csv") if any(f"slice{num}" in f for num in target_slices)]
 brachyury_cells_files = [f for f in glob.glob("data/bra_D3_slice*.csv") if any(f"slice{num}" in f for num in target_slices)]
 all_cells = pd.concat(
@@ -63,6 +63,7 @@ plt.title("D3 Brachyury Classification of Cells")
 plt.xlabel("X")
 plt.ylabel("Y")
 plt.tight_layout()
+#plt.savefig("brac-points-D3-slices71.eps", format="eps")
 plt.show(block=False)
 
 # --- 5. Plot Aspect Ratio vs. Curvature (ALL slices) ---
@@ -81,9 +82,11 @@ for status, color in [("Brachyury-positive", "red"), ("Brachyury-negative", "blu
     plt.scatter([], [], label=status, color=color)
 plt.legend()
 plt.tight_layout()
+#plt.savefig("scatterplot-brac-curvature.eps", format="eps")
 plt.show(block=False)
 
 # --- 5. Plot Curvature Distribution by Brachyury Status(ALL slices) ---
+# note: this plot is better if just slices 71 and 83 are used (don't include slice 40 because the brac are too spread out)
 plt.figure(num=3, figsize=(7, 5))
 sns.kdeplot(
     data=all_cells,                   
@@ -102,4 +105,6 @@ plt.xlabel("Curvature")
 plt.ylabel("Density")
 plt.grid(False)
 plt.tight_layout()
+plt.savefig("brac-curvature-distribution.eps", format="eps")
 plt.show()
+

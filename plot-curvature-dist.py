@@ -95,4 +95,21 @@ plt.xlabel("Curvature")
 plt.ylabel("Density")
 plt.tight_layout()
 plt.grid(False)
-plt.show()
+plt.show(block=False)
+
+# Generate curvature vs frequency table
+num_bins = 30  # You can change this
+final_df["Curvature_Bin"] = pd.cut(final_df["Curvature"], bins=num_bins)
+
+# Group and count
+curvature_table = final_df.groupby(["Curvature_Bin", "Day"]).size().reset_index(name="Frequency")
+
+# Convert bin to midpoint
+curvature_table["Curvature_Midpoint"] = curvature_table["Curvature_Bin"].apply(lambda x: x.mid)
+
+# Reorder columns
+curvature_table = curvature_table[["Curvature_Midpoint", "Day", "Frequency"]]
+
+# Save to CSV
+curvature_table.to_csv("curvature_vs_frequency.csv", index=False)
+print("Saved curvature_vs_frequency.csv")
