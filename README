@@ -1,6 +1,40 @@
-Human Embryo Image Segmentation
+## Human Embryo Image Segmentation
+Spring 2025 - Zernicka-Goetz Lab
 
-How to run:
+----------------------
+How to run
+----------------------
+
+Macros:
 - segment-nuclei.ijm (paste this into a fiji macro - segments the original image and saves coordinates, aspect ratio of each nuclei to a csv)
+     --> note: use the same script to segment bra+, but change the channel to 2, update the output path, and adjust the threshold
+- segment-factin-outline.ijm (paste this into a fiji macro - segments the f-actin channel of the image and saves the outline to a csv)
+
+Python Scripts:
 - `python3 boxplot-aspect-ratio.py` (generates boxplot of aspect ratio of nuclei in day 2 and day 3)
-- `python3 plot-curvature-distribution.py` (generates 2 plots: (1) scatterplot of curvature vs. nuclear aspect ratio by day 2 and day and (2) smoothed histogram of curvature frequencies by day 2 and day 3) 
+- `python3 plot-curvature-dist.py` (generates 2 plots: (1) scatterplot of curvature vs. nuclear aspect ratio by day 2 and day and (2) smoothed histogram of curvature frequencies by day 2 and day 3) 
+- `python3 compare-fitted-ellipses.py` (generates plots that compare segmenting the f-actin vs nuclei centroids)
+- `python3 plot-brac-curvature-dist.py` (generates 3 plots: (1) example classification of brac nuclei in a d3 structure, (2) scatterplot of aspect ratio vs curvature by brac status, and (3) smoothed histogram of curvature frequencies by bracyhury pos or neg status)
+
+
+----------------------
+Data (CSVs)
+----------------------
+
+- Stored in the /data folder 
+- This all comes directly from running the Fiji macros
+- Each CSV file is labeled with the name of the day, slice, and series
+- The file name ends with '_new' if it is from one of the following more recent files:
+     --> SHEF6N2_D2N20-3dE_G3_DAPI_Factin-488_Bry-568_Sox2-647.lif
+     --> SHEF6N2_D3N20-3dE_G3_DAPI_Factin-488_Bry-568_Sox2-647.lif
+- The file name does NOT end with '_new' if it is from one of the following older files:
+     --> 05032025_Shef6WT_D2_Ctrl-3dE_G3_DAPI_Factin-488_Bry-568_Sox2-647.lif
+     --> 05032025_Shef6WT_D3_Ctrl-3dE_DAPI_Factin-488_Bry-568_Sox2-647.lif
+
+
+----------------------
+Images
+----------------------
+
+- Stored in the /images folder
+- Explanations in the following presentation: https://docs.google.com/presentation/d/1D8vtN6hfNWk9V9QvUur7iQ2TpaRtFlOSmnIzUwa2q9U/edit?usp=sharing
