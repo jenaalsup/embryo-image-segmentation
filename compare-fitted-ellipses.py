@@ -49,11 +49,11 @@ def normalize_and_align(ellipse1, ellipse2, width, height):
 # ------------------------------
 
 img_nuclei = mpimg.imread("images/D3-slice63.png")
-img_factin = mpimg.imread("images/D3_slice63_factin.png")
+img_factin = mpimg.imread("images/D3-slice63-factin.png")
 height, width = img_nuclei.shape[:2]
 
 contour = np.loadtxt("data/Ellipse_contour_D3_slice63.csv", delimiter=",", skiprows=1)[:, :2]
-xy_nuclei = pd.read_csv("data/D3_slice63.csv")[["X", "Y"]].values
+xy_nuclei = pd.read_csv("data/D3_slice63_series1.csv")[["X", "Y"]].values
 
 ellipse_factin = fit_ellipse(contour)
 ellipse_nuclei = fit_ellipse(xy_nuclei)
@@ -155,4 +155,5 @@ plt.xlabel("X (normalized)")
 plt.ylabel("Y (normalized)")
 plt.legend()
 plt.tight_layout()
+#plt.savefig("ellipse-comparison-D3-slice63.eps", format="eps")
 plt.show()

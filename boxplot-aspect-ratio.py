@@ -62,4 +62,5 @@ plt.title("Nuclear Aspect Ratio: Day 2 vs Day 3")
 plt.suptitle("")  # Remove automatic "Boxplot grouped by Day" title
 plt.ylabel("Aspect Ratio")
 plt.tight_layout()
+#plt.savefig("boxplot-aspect-ratio.eps", format="eps")
 plt.show()
