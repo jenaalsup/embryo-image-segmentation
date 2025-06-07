@@ -105,6 +105,31 @@ plt.xlabel("Curvature")
 plt.ylabel("Density")
 plt.grid(False)
 plt.tight_layout()
-plt.savefig("brac-curvature-distribution.eps", format="eps")
-plt.show()
+#plt.savefig("brac-curvature-distribution.eps", format="eps")
+plt.show(block=False)
 
+# --- 6. Save Curvature vs Frequency Table by Day ---
+# Extract slice number from filename and assign to "Day"
+# Remove 40 from the included slices when running this part
+def extract_day(source_str):
+    for num in target_slices:
+        if f"slice{num}" in source_str:
+            return f"Slice {num}"
+    return "Unknown"
+
+all_cells["Day"] = all_cells["Source"].apply(extract_day)
+
+# Bin curvature values into histogram bins
+num_bins = 30  # You can adjust this as needed
+all_cells["Curvature_Bin"] = pd.cut(all_cells["Curvature"], bins=num_bins)
+
+# Group and count frequency
+curvature_table = all_cells.groupby(["Curvature_Bin", "Day"]).size().reset_index(name="Frequency")
+
+# Convert bin to midpoint for plotting
+curvature_table["Curvature_Midpoint"] = curvature_table["Curvature_Bin"].apply(lambda x: x.mid)
+
+# Reorder columns and save
+curvature_table = curvature_table[["Curvature_Midpoint", "Day", "Frequency"]]
+#curvature_table.to_csv("brac_curvature_vs_frequency.csv", index=False)
+#print("✅ Saved: curvature_vs_frequency.csv")
