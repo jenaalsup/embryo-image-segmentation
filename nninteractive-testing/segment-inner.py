@@ -29,6 +29,31 @@ def rescale_for_seeding(vol):
     lo, hi = np.percentile(vol, (2, 98))
     return np.clip((vol - lo) / max(1e-6, (hi - lo)), 0, 1)
 
+from scipy.ndimage import binary_dilation, binary_erosion
+
+def find_cavities(norm_xyz):
+    """Return a boolean mask of dark enclosed cavities (not touching borders)."""
+    # Smooth a bit and pick dark voxels
+    sm = gaussian_filter(norm_xyz, 1.0)
+    dark = sm < np.percentile(sm, 40)                 # tune 30–50 if needed
+    dark = binary_opening(dark, np.ones((3,3,3)))
+    dark = binary_closing(dark, np.ones((3,3,3)))
+
+    lbl, n = cc3d(dark)
+    cav = np.zeros_like(dark, bool)
+    X, Y, Z = dark.shape
+    for i in range(1, n+1):
+        comp = (lbl == i)
+        if comp.sum() < 1000:                          # skip tiny specks
+            continue
+        # Reject components touching any image border
+        touches = (comp[0,:,:].any() or comp[-1,:,:].any() or
+                   comp[:,0,:].any() or comp[:,-1,:].any() or
+                   comp[:,:,0].any() or comp[:,:,-1].any())
+        if not touches:
+            cav |= comp
+    return cav
+
 from scipy.ndimage import distance_transform_edt as edt
 
 def auto_prompts(vol):
@@ -87,16 +112,36 @@ def setup_session():
     sess.initialize_from_trained_model_folder(os.path.join(path,"nnInteractive_v1.0"))
     return sess
 
-def postprocess(mask):
-    from scipy.ndimage import binary_closing, binary_fill_holes, label
-    m = binary_closing(mask>0, np.ones((3,3,3)))
+def postprocess(mask, norm_xyz, band_thickness=2):
+    """
+    Keep only membrane voxels that are adjacent to enclosed dark cavities (inner boundary),
+    then thin to a band (1–2 voxels).
+    """
+    # Clean raw mask a bit
+    m = binary_closing(mask > 0, np.ones((3,3,3)))
     m = binary_fill_holes(m)
-    lbl, n = label(m)
-    keep = np.zeros_like(m)
-    for i in range(1,n+1):
-        comp = lbl==i
-        if comp.sum()>=2000: keep |= comp
-    return (keep*255).astype(np.uint8)
+
+    # Inner-cavity gate
+    cavities = find_cavities(norm_xyz)                          # dark enclosed regions
+    near_cavity = binary_dilation(cavities, iterations=band_thickness)
+    inner_only = m & near_cavity                                # drop basal/outer ring
+
+    # Thin to a narrow band along the lumen wall
+    if band_thickness > 0:
+        eroded = binary_erosion(inner_only, iterations=band_thickness)
+        band = inner_only & (~eroded)
+    else:
+        band = inner_only
+
+    # Keep only reasonably large connected pieces
+    lbl, n = cc3d(band)
+    keep = np.zeros_like(band, bool)
+    for i in range(1, n+1):
+        comp = (lbl == i)
+        if comp.sum() >= 2000:
+            keep |= comp
+
+    return (keep.astype(np.uint8) * 255)
 
 def save_outputs(mask_xyz_uint8, out_path, preview_slices=(0.25,0.5,0.75)):
     import imageio.v2 as imageio
@@ -162,7 +207,7 @@ def main():
     print(f"[{time.time()-start_points:.2f}s] Inference complete")
 
     t0 = time.time()
-    out = postprocess(mask)
+    out = postprocess(mask, norm)
     print(f"[{time.time()-t0:.2f}s] Postprocessing done")
 
     t0 = time.time()
