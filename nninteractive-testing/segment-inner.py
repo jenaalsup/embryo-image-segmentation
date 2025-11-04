@@ -3,6 +3,8 @@
 Fully automatic lumen inner-boundary segmentation using nnInteractive.
 Hardcoded input file: /Users/jenaalsup/Desktop/CKHRJQ~2.TIF
 Outputs: /Users/jenaalsup/Desktop/CKHRJQ~2_mask.tif and PNG slice previews.
+
+Chat of how to run in napari w/ nninteractive plugin: https://chatgpt.com/share/6909ad7b-c8d4-800a-809e-d976fba52808
 """
 
 import os, warnings, math, random
