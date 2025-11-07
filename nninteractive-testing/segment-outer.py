@@ -191,10 +191,20 @@ def main():
   uniq = np.unique(final_mask)
   print(f"[Log] Final mask unique values: {uniq[:10]} (len={len(uniq)}) nonzero={int(final_mask.sum())}")
 
-  # 9) Save final mask (0/255)
-  out_path = os.path.abspath(OUT_TIF)
-  sitk.WriteImage(sitk.GetImageFromArray(np.transpose(final_mask * 255, (2, 1, 0))), out_path, True)
-  print(f"[Log] Saved: {out_path}")
+  # 9) Split into per-lumen 3D masks and save each (0/255)
+  labels_final, nlab_final = label(final_mask)
+  if nlab_final == 0:
+    print("[Log] Warning: no components in final mask; nothing to save")
+    return
+  counts = np.bincount(labels_final.ravel()); counts[0] = 0
+  lids = np.nonzero(counts)[0]
+  # order by size descending
+  lids = lids[np.argsort(counts[lids])[::-1]]
+  for idx, lid in enumerate(lids, start=1):
+    per_mask = (labels_final == lid).astype(np.uint8)
+    out_path = os.path.join(_dir, f"{_base}_lumen{idx:03d}_segmented.tif")
+    sitk.WriteImage(sitk.GetImageFromArray(np.transpose(per_mask * 255, (2, 1, 0))), out_path, True)
+    print(f"[Log] Saved lumen {idx:03d}: voxels={int(per_mask.sum())} -> {out_path}")
 
 
 if __name__ == "__main__":
