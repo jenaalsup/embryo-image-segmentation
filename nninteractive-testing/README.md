@@ -47,6 +47,7 @@
 
 ### Ellipse fitting
 1. Move all files outputted from the previous step to be in this file structure, where each file has its own folder and for n lumens, there are n + 1 files:
+<img width="784" height="311" alt="Screenshot 2025-11-12 at 2 28 25 PM" src="https://github.com/user-attachments/assets/c4fac917-5910-42bd-aa61-dc54f354a446" />
 
 
 2. export SEGMENTATION_DIR="..." (e.g. /Users/jenaalsup/Desktop/segmentation-testing)
