@@ -20,10 +20,13 @@ from pathlib import Path
 import time
 
 INPUT_PATH = Path(r"C:\Users\Zernicka-Goetz Lab\Desktop\Jena\CKHRJQ_2.TIF")
+# INPUT_PATH = Path(os.environ.get("IMAGE_PATH", "~/Desktop/CKHRJQ~2.TIF")).expanduser() # use this if on mac not windows
+
 OUTPUT_PATH = INPUT_PATH.with_name(INPUT_PATH.stem + "_mask.tif")
 
 def read_tiff_as_xyz(path):
     itk = sitk.ReadImage(str(path))
+    #itk = sitk.ReadImage(path) # use this if on mac not windows
     arr = sitk.GetArrayFromImage(itk)  # (Z,Y,X)
     return np.transpose(arr, (2,1,0)).astype(np.float32), itk  # (X,Y,Z)
 
