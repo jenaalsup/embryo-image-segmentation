@@ -158,6 +158,7 @@ def smooth_3d(mask_u8):
 # --------------------------------------------------- #
 
 def main():
+  t0 = time.time()
   # 1) Load and normalize
   arr8, shape_xyz = load_and_normalize(IMAGE_PATH)
   print(f"[Log] Input path: {IMAGE_PATH}")
@@ -195,6 +196,7 @@ def main():
   labels_final, nlab_final = label(final_mask)
   if nlab_final == 0:
     print("[Log] Warning: no components in final mask; nothing to save")
+    print(f"[Log] Completed in {time.time() - t0:.2f}s")
     return
   counts = np.bincount(labels_final.ravel()); counts[0] = 0
   lids = np.nonzero(counts)[0]
@@ -205,6 +207,7 @@ def main():
     out_path = os.path.join(_dir, f"{_base}_lumen{idx:03d}_segmented.tif")
     sitk.WriteImage(sitk.GetImageFromArray(np.transpose(per_mask * 255, (2, 1, 0))), out_path, True)
     print(f"[Log] Saved lumen {idx:03d}: voxels={int(per_mask.sum())} -> {out_path}")
+  print(f"[Log] Completed in {time.time() - t0:.2f}s")
 
 
 if __name__ == "__main__":
