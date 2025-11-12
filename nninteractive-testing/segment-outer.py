@@ -22,7 +22,7 @@ from skimage.morphology import ball, disk, binary_opening, binary_closing, remov
 IMAGE_PATH = os.path.expanduser(os.environ.get("IMAGE_PATH", os.path.expanduser("~/Desktop/CKHRJQ~2.TIF")))
 _base = os.path.splitext(os.path.basename(IMAGE_PATH))[0]
 _dir  = os.path.dirname(os.path.abspath(IMAGE_PATH))
-OUT_TIF = os.path.join(_dir, f"{_base}_segmented.tif")
+OUT_TIF = os.path.join(_dir, f"{_base}_outer_labels.tif")
 
 # Preprocess
 GAUSS_SIGMA       = (1.2, 1.2, 1.2)    # increase for noisier images; too high will blur/thicken edges
@@ -36,7 +36,7 @@ THRESH_VAL_U8     = 30                 # lower if image is dim/low contrast (inc
 OPEN_RAD_3D       = 2                   # raise to remove small 3D specks; too high can thin or break narrow walls
 
 # Keep lumens (3D)
-MIN_SIZE_VOX      = 5000               # raise to ignore tiny blobs; lower if lumens are small
+MIN_SIZE_VOX      = 15000              # raise to ignore tiny blobs; lower if lumens are small
 
 # Per-slice “fill inside outline”
 SL_CLOSE_RAD      = 8                   # per-slice gap closing; raise to bridge gaps, may over-round
