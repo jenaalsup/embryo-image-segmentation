@@ -43,4 +43,11 @@
 ### Outer cavity segmentation (with thresholding)
 
 1. export IMAGE_PATH="..." (e.g. /Users/jenaalsup/Desktop/CKHRJQ~2.TIF)
-2. python3 segment-outer.py
+2. python3 segment-outer.py (expect this to take ~2-3 minutes)
+
+### Ellipse fitting
+1. Move all files outputted from the previous step to be in this file structure, where each file has its own folder and for n lumens, there are n + 1 files:
+
+
+2. export SEGMENTATION_DIR="..." (e.g. /Users/jenaalsup/Desktop/segmentation-testing)
+3. python3 image_analysis.py

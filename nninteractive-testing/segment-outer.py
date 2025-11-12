@@ -10,6 +10,7 @@ python3 segment-outer.py
 """
 
 import os
+import time
 import numpy as np
 import SimpleITK as sitk
 from scipy.ndimage import gaussian_filter, median_filter, grey_closing, binary_fill_holes, label
