@@ -38,3 +38,9 @@
     <img width="2170" height="1300" alt="Screenshot 2025-11-09 154239" src="https://github.com/user-attachments/assets/6cb73586-c863-48ef-894d-ae22b20a1ba2" />
 
 11. Go to File > Save Selected Layer(s) and choose the Labels layer.
+
+
+### Outer cavity segmentation (with thresholding)
+
+1. export IMAGE_PATH="..." (e.g. /Users/jenaalsup/Desktop/CKHRJQ~2.TIF)
+2. python3 segment-outer.py
