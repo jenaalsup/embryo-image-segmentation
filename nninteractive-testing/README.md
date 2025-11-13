@@ -44,7 +44,11 @@
 ### Outer cavity segmentation (with Napari/nninteractive)
 ---
 - same steps as inner basically
-- can also potentially do inner/outer at the same time by putting positive points in the actual lumen, negative in the cavity
+- need roughly 4 clicks inside each lumen depending on size to get the whole thing filled
+- save each lumen as a separate file. press "next object" in between each step so that they are all saved in different layers
+- can also potentially do inner/outer at the same time by putting positive points in the actual lumen, negative in the cavity DONT DO THIS
+- sometimes napari crashes when you want to do more than 2 lumens???
+<img width="2154" height="1380" alt="image" src="https://github.com/user-attachments/assets/bee96b17-602b-4245-9c67-22b227256a71" />
 
 ### Ellipse fitting
 ---
