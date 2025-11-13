@@ -1,5 +1,5 @@
 ### Inner cavity segmentation (with Napari/nninteractive)
-
+---
 1. Open Anaconda Prompt  
    (On Windows, click the Start button and search for "Anaconda Prompt")
 
@@ -42,18 +42,19 @@
 
 
 ### Outer cavity segmentation (with Napari/nninteractive)
+---
 - same steps as inner basically
-
-
-### Outer cavity segmentation (with thresholding) - alternative to Napari
-
-1. export IMAGE_PATH="..." (e.g. /Users/jenaalsup/Desktop/CKHRJQ~2.TIF)
-2. python3 segment-outer.py (expect this to take ~2-3 minutes)
+- can also potentially do inner/outer at the same time by putting positive points in the actual lumen, negative in the cavity
 
 ### Ellipse fitting
+---
 1. Move all files outputted from the previous step to be in this file structure, where each file has its own folder and for n lumens, there are n + 1 files:
 <img width="784" height="311" alt="Screenshot 2025-11-12 at 2 28 25 PM" src="https://github.com/user-attachments/assets/c4fac917-5910-42bd-aa61-dc54f354a446" />
 
+### [deprecated] Outer cavity segmentation (with thresholding) - alternative to Napari
+---
+1. export IMAGE_PATH="..." (e.g. /Users/jenaalsup/Desktop/CKHRJQ~2.TIF)
+2. python3 segment-outer.py (expect this to take ~2-3 minutes)
 
 2. export SEGMENTATION_DIR="..." (e.g. /Users/jenaalsup/Desktop/segmentation-testing)
 3. python3 image_analysis.py
